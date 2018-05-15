@@ -64,9 +64,17 @@ const locations = [{
 
 client.connect()
 
-// Select query for projects 
-app.get('/',(req,res)=>{
-    res.send(locations)
+// Select query for locations
+
+app.get('/projects',(req,resp)=>{
+    client.query("SELECT * FROM locations",
+    (err, rows,fields)=> {
+    if(err){
+        res.send(error)
+    }else{
+        resp.json(rows.rows)
+    }
+})
 })
 
 // BodyParser
