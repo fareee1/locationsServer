@@ -66,7 +66,7 @@ client.connect()
 
 // Select query for locations
 
-app.get('/projects',(req,resp)=>{
+app.get('/',(req,resp)=>{
     client.query("SELECT * FROM locations",
     (err, rows,fields)=> {
     if(err){
