@@ -56,7 +56,7 @@ const locations = [{
 }]
 
 // Select query for projects 
-app.get('/',(req,resp)=>{
+app.get('/',(req,res)=>{
     res.send(locations)
 })
 
