@@ -1,7 +1,14 @@
 const express= require('express')
+const pg = require('pg')
+const { Client } = require('pg');
 const app = express()
 const bodyParser = require('body-parser')
 
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true
+  });
+  
 // Allow client to access cross domain or ip-address
 app.use((req,res,next)=>{
     res.header("Access-Control-Allow-Origin", "*");
@@ -55,6 +62,8 @@ const locations = [{
     "visited": false
 }]
 
+client.connect()
+
 // Select query for projects 
 app.get('/',(req,res)=>{
     res.send(locations)
@@ -64,7 +73,7 @@ app.get('/',(req,res)=>{
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-port = 5432 
+port = process.env.PORT
 // Listener
 app.listen(port, ()=>{
 console.log('Im listening on ', port)
