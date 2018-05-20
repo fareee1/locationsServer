@@ -21,19 +21,19 @@ client.connect()
 
 // Select query for locations
 
-app.get('/',(req,resp)=>{
+app.get('/',(req,res)=>{
     client.query("SELECT * FROM locations",
     (err, rows,fields)=> {
     if(err){
         res.send(error)
     }else{
-        resp.json(rows.rows)
+        res.json(rows.rows)
     }
 })
 })
 
-app.post('/addMarker',(req,resp)=>{
-    const sql = 'INSERT INTO locations(lat, long, cityname, description, visited) VALUES($1,$2,$3,$4,$5)'
+app.post('/addMarker',(req,res)=>{
+    const sql = 'INSERT INTO locations(lat, long, cityName, description, visited) VALUES($1,$2,$3,$4,$5)'
     const params = [req.body.lat, req.body.long, req.body.cityname, req.body.description, req.body.visited]
     if(!req.body.lat || !req.body.long || req.body.cityname || req.body.description){
         return res.send("Something missing")
