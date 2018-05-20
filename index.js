@@ -17,51 +17,6 @@ app.use((req,res,next)=>{
     next();
 })
 
-
-const locations = [{
-    "id": 1,
-    "lat": 52.3702,
-    "lon": 4.8952,
-    "cityName": "Amsterdam",
-    "description": "Such a lovely place to visit",
-    "visited": true
-},{
-    "id": 2,
-    "lat": 50.1109,
-    "lon": 8.6821,
-    "cityName": "Frankfurt",
-    "description": "Visited twice",
-    "visited": true
-},{
-    "id": 3,
-    "lat": 50.0755,
-    "lon": 14.4378,
-    "cityName": "Prague",
-    "description": "Feel in love with this city",
-    "visited": true
-},{
-    "id": 4,
-    "lat": 40.4168,
-    "lon": 3.7038,
-    "cityName": "Madrid",
-    "description": "Planning to visit in october",
-    "visited": false
-},{
-    "id": 5,
-    "lat": 44.7866,
-    "lon": 20.4489,
-    "cityName": "Belgrade",
-    "description": "Best nightlife",
-    "visited": false
-},{
-    "id": 6,
-    "lat": 48.8566,
-    "lon": 2.3522,
-    "cityName": "Paris",
-    "description": "City of love",
-    "visited": false
-}]
-
 client.connect()
 
 // Select query for locations
@@ -75,6 +30,18 @@ app.get('/',(req,resp)=>{
         resp.json(rows.rows)
     }
 })
+})
+
+app.post('/addMarker',(req,resp)=>{
+    const sql = 'INSERT INTO locations(lat, long, cityname, description, visited) VALUES($1,$2,$3,$4,$5)'
+    const params = [req.body.lat, req.body.long, req.body.cityname, req.body.description, req.body.visited]
+    if(!req.body.lat || !req.body.long || req.body.cityname || req.body.description){
+        return res.send("Something missing")
+    } 
+    if(!req.body.visited){
+        req.body.visited = true
+    }
+    return client.query(sql, params)
 })
 
 // BodyParser
