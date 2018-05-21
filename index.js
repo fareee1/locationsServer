@@ -32,15 +32,6 @@ app.get('/',(req,res)=>{
 })
 })
 
-app.post('/addMarker',(req,res)=>{
-    const sql = 'INSERT INTO locations(lat, long, cityName, description, visited) VALUES($1,$2,$3,$4,$5)'
-    const params = [req.body.lat, req.body.long, req.body.cityname, req.body.description, req.body.visited]
-    if(!req.body.visited){
-        req.body.visited = true
-    }
-    return client.query(sql, params)
-})
-
 // BodyParser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
